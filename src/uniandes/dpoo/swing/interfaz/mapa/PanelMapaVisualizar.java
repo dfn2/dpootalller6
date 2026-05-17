@@ -1,0 +1,61 @@
+package uniandes.dpoo.swing.interfaz.mapa;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
+import uniandes.dpoo.swing.mundo.Restaurante;
+
+@SuppressWarnings("serial")
+public class PanelMapaVisualizar extends JPanel
+{
+    private JLabel labMapa;
+
+    private List<Restaurante> restaurantes;
+
+    public PanelMapaVisualizar( )
+    {
+        this.labMapa = new JLabel( new ImageIcon( "./imagenes/mapa.png" ) );
+        labMapa.setBorder( new LineBorder( Color.DARK_GRAY ) );
+        add( labMapa, BorderLayout.CENTER );
+    }
+
+    @Override
+    public void paint( Graphics g )
+    {
+        super.paint( g );
+        Graphics2D g2d = ( Graphics2D )g;
+
+        if( restaurantes != null )
+        {
+            for( Restaurante r : restaurantes )
+            {
+                g2d.setColor( Color.RED );
+                g2d.fillOval( r.getX( ) - 4, r.getY( ) - 4, 9, 9 );
+                g2d.setColor( Color.RED );
+                g2d.drawString( r.getNombre( ), r.getX( ) + 6, r.getY( ) + 4 );
+            }
+        }
+    }
+
+    public void actualizarMapa( List<Restaurante> nuevosRestaurantes )
+    {
+        if( restaurantes != null )
+        {
+            this.restaurantes.clear( );
+            this.restaurantes.addAll( nuevosRestaurantes );
+        }
+        else
+        {
+            this.restaurantes = nuevosRestaurantes;
+        }
+        repaint( );
+    }
+}
